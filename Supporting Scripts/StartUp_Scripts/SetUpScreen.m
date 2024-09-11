@@ -17,6 +17,14 @@ function SetUpScreen(Pars)
     % Create the window in which we will operate
     [Pars.screen.window, ~] = Screen('OpenWindow', Pars.screen.screen, Pars.screen.color);
 
+    % Get Physical Size of Display Screen (in inches)  JA 2024/15/08
+    [dispWidth,dispHeight] = Screen('DisplaySize',Pars.screen.screen);
+    Pars.screen.dispWidth = round(dispWidth/25.4);
+    Pars.screen.dispHeight = round(dispHeight/25.4);
+
+    % Set Size of Photodiode Square (in pixels)
+    Pars.photodiode.sizePx = round(Pars.screen.window_width/Pars.screen.dispWidth*Pars.photodiode.size);
+
     %Set up text Preferences
     Screen('TextFont', Pars.screen.window, Pars.text.font.default);
 end

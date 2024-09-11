@@ -1,27 +1,25 @@
-function run_MAB_24_7(taskRunNum,BR_connect)
+function Test_run_MAB_24_7(taskRunNum,BR_connect)
 %run_MAB_24_7(1,1)
 
-%taskrunNum is number of times this participant has run art nav.
+%taskrunNum is number of times this participant has run the task.
 %BR_connect is whether to start a blackrock recording
-
+% Hello im testing
 
 if nargin==1
     BR_connect = 1;
 end
 
-addpath(genpath('C:\Users\EMU - Behavior\Documents\MATLAB\Behavioral Tasks\BH\4MAB'))
-taskDir = 'C:\Users\EMU - Behavior\Documents\MATLAB\Behavioral Tasks\BH\4MAB';
+addpath(genpath('C:\Users\EMU - Behavior\Documents\MATLAB\Behavioral Tasks\BH\MAB'))
+taskDir = 'C:\Users\EMU - Behavior\Documents\MATLAB\Behavioral Tasks\BH\MAB';
 cd(taskDir)
 
 computerMaxVolume()
-
 
 %start blackrock
 if BR_connect
     [emuRunNum,sub_label] = getNextLogEntry();
     savefname = sprintf('EMU-%04d_subj-%s_task-4MAB_run-%02d',emuRunNum,sub_label,taskRunNum);
-    TaskComment('start',savefname);
-    
+    TaskComment('start',savefname);   
 else
     sub_label = 'TEST';
 end
@@ -44,48 +42,26 @@ end
 %end
 
 %disp('Dont forget to move files to subject directory!! also update the code so this happens automatically')
-rmpath(genpath('C:\Users\EMU - Behavior\Documents\MATLAB\Behavioral Tasks\BH\4MAB'))
+%rmpath(genpath('C:\Users\EMU - Behavior\Documents\MATLAB\Behavioral Tasks\BH\4MAB'))
 end
 
+function moveFilesToPatientData(sub_label,taskRunNum)
 
+saveDir = fullfile(userpath,'PatientData',sub_label,'MAB',['session_',num2str(taskRunNum)]);
+if ~exist(saveDir,'dir')
+    mkdir(saveDir)
+end
+
+OutputFilesDir = dir(fullfile(pwd, 'Output', '*'));
+BFilesIdx = contains({OutputFilesDir.name},sub_label);
+BFiles = {OutputFilesDir(BFilesIdx).name};
+for i = 1:length(BFiles)
+    movefile(fullfile(pwd,BFiles{i}), fullfile(saveDir,BFiles{i}));
+end
+
+end
 %run 4mab block, could also be practice
 % function Run_4ArmedBandit() 
 % main
 % end
 
-% function moveFilesToPatientData(sub_label,taskRunNum)
-% desktopDir = 'C:\\Users\EMU - Behavior\Desktop\';
-% saveDir = fullfile(userpath,'PatientData',sub_label,'ArtNav',['session_',num2str(taskRunNum)]);
-% if ~exist(saveDir,'dir')
-%     mkdir(saveDir)
-% end
-% 
-% positionFilesDir = dir(pwd);
-% positionFilesIdx = contains({positionFilesDir.name},'Position');
-% positionFiles = {positionFilesDir(positionFilesIdx).name};
-% for i = 1:length(positionFiles)
-%     movefile(fullfile(pwd,positionFiles{i}), fullfile(saveDir,positionFiles{i}));
-% end
-% 
-% rotationFilesDir = dir(pwd);
-% rotationFilesIdx = contains({rotationFilesDir.name},'Rotation');
-% rotationFiles = {rotationFilesDir(rotationFilesIdx).name};
-% for i = 1:length(rotationFiles)
-%     movefile(fullfile(pwd,rotationFiles{i}), fullfile(saveDir,rotationFiles{i}));
-% end
-% 
-% keyPressFilesDir = dir(desktopDir);
-% keyPressFilesIdx = contains({keyPressFilesDir.name},'KeyPress');
-% keyPressFiles = {keyPressFilesDir(keyPressFilesIdx).name};
-% for i = 1:length(keyPressFiles)
-%     movefile(fullfile(desktopDir,keyPressFiles{i}), fullfile(saveDir,keyPressFiles{i}));
-% end
-% 
-% SoundsFilesDir = dir(desktopDir);
-% SoundsFilesIdx = contains({SoundsFilesDir.name},'soundlog');
-% SoundsFiles = {SoundsFilesDir(SoundsFilesIdx).name};
-% for i = 1:length(SoundsFiles)
-%     movefile(fullfile(desktopDir,SoundsFiles{i}), fullfile(saveDir,SoundsFiles{i}));
-% end
-% 
-% end

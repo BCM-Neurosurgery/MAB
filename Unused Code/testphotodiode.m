@@ -5,6 +5,7 @@ clear;
 
 % Here we call some default settings for setting up Psychtoolbox
 PsychDefaultSetup(2);
+Screen('Preference', 'SkipSyncTests', 1);
 
 % Seed the random number generator. Here we use the an older way to be
 % compatible with older systems.
@@ -29,7 +30,7 @@ black = BlackIndex(screenNumber);
 
 % Open an on screen window and color it black.
 % For help see: Screen OpenWindow?
-[window, windowRect] = PsychImaging('OpenWindow', screenNumber, black);
+[window, windowRect] = Screen('OpenWindow', screenNumber, black);
 
 % Get the size of the on screen window in pixels.
 % For help see: Screen WindowSize?
@@ -68,7 +69,17 @@ dotSizePix = 20;
 % smooth edges
 Screen('DrawDots', window, [dotXpos dotYpos], dotSizePix, dotColor, [], 2);
 
-photodiode_rect = [0, screenYpixels*(8/9), screenXpixels/8, screenYpixels];
+% Get Physical Size of Display Screen (in inches)  JA 2024/15/08
+[dispWidth,dispHeight] = Screen('DisplaySize',window);
+dispWidth = round(dispWidth/25.4);
+dispHeight = round(dispHeight/25.4);
+
+% Set Size of Photodiode Square (in pixels)
+photodiodeSizeIn = 2;
+photodiodeSizePx = round(screenXpixels/dispWidth*photodiodeSizeIn);
+
+photodiode_rect = [0, screenYpixels-photodiodeSizePx, ...
+    photodiodeSizePx, screenYpixels];
 Screen('FillRect', window, repmat(255, 1, 4), photodiode_rect);
 
 % Flip to the screen. This command basically draws all of our previous

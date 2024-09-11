@@ -1,6 +1,7 @@
 classdef ParameterClass < handle
     properties
         screen
+        photodiode
         trial
         target
         avatars
@@ -13,6 +14,7 @@ classdef ParameterClass < handle
     methods
         function obj = ParameterClass(Patient_Name)
             obj.screen = struct;
+            obj.photodiode = struct;
             obj.trial = struct;
             obj.target = struct;
             obj.avatars = struct;

@@ -29,7 +29,7 @@ end
 %run task OR maybe you can directly call on the main function
 main(sub_label)
 %Move Files to PatientData Folder
-%moveFilesToPatientData(sub_label,taskRunNum)
+moveFilesToPatientData(sub_label,taskRunNum)
 
 if BR_connect
     TaskComment('stop',savefname); 
@@ -45,7 +45,25 @@ end
 %rmpath(genpath('C:\Users\EMU - Behavior\Documents\MATLAB\Behavioral Tasks\BH\4MAB'))
 end
 
+function moveFilesToPatientData(sub_label,taskRunNum)
 
+saveDir = fullfile(userpath,'PatientData',sub_label,'MAB',['session_',num2str(taskRunNum)]);
+if ~exist(saveDir,'dir')
+    mkdir(saveDir)
+end
+
+OutputFilesDir = dir(fullfile(pwd, 'Output', '*'));
+BFilesIdx = contains({OutputFilesDir.name},sub_label);
+BFiles = {OutputFilesDir(BFilesIdx).name};
+for i = 1:length(BFiles)
+    % Construct the full source path from the Output folder
+    sourceFile = fullfile(pwd, 'Output', BFiles{i});
+    
+    % Move the file to the save directory
+    movefile(sourceFile, fullfile(saveDir, BFiles{i}));
+end
+
+end
 %run 4mab block, could also be practice
 % function Run_4ArmedBandit() 
 % main

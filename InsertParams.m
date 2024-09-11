@@ -23,6 +23,9 @@ function in_pars = InsertParams(Patient_Name)
     in_pars.screen.start_point = [0, 0];            % Vector - Determines the upmost left corner of the screen. [0,0] is the default 
     in_pars.screen.window_height = 0;               % Integer - Determines the Height of the window. 0 will make the program FullScreen 
     in_pars.screen.window_width = 0;                % Integer - Determines the Width of the window. 0 will make the program FullScreen
+
+    % Photodiode Display Parameters JA 2024/15/08
+    in_pars.photodiode.size = 2;    % Integer - Determines size of photodiode square (in inches) on display monitor.
     
     % Text parameters
     % Text Font Parameters - Determine the font used in the experiment
@@ -44,7 +47,7 @@ function in_pars = InsertParams(Patient_Name)
     in_pars.trial.show_intro = true;        % Logical - Determines whether or not the introduction will be shown
     % in_pars.trial.duration_s = 20;          % POSSIBLY UNUSED
     in_pars.trial.cpu_wait_s = [2, 4];      % Vector of 2 positives - Range of cpu waiting times to simulate decision making
-    in_pars.trial.num = 1;                 % Integer - Determines the number of trials per block
+    in_pars.trial.num = 50;                 % Integer - Determines the number of trials per block
     in_pars.trial.photodiode_dur_s = 0.5;   % Positive number - determines how long the photodiode will be shown for
 
     in_pars.target.radius_percent = 95;                    % Positive integer - The percentage of size compared to their possible max
